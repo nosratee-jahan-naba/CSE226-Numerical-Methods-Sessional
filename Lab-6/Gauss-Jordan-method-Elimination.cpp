@@ -11,25 +11,23 @@ int main()
        for(int j = 0; j <= n; j++)
            cin >> v[i][j];
 
-    // this loop -->  pivot element, v[i][i] ==> 1 ,v[0][0] = 1.....
-    for(int i = 0; i < n; i++)
+    for(int i = 0; i < n; i++)  // for each pivot row
     {
+        // Make the pivot = 1
         double pivot = v[i][i];
         for(int j = 0; j <= n; j++)
-            v[i][j] /= pivot;       
-    }
+            v[i][j] /= pivot;
 
-    for(int i = 0; i < n; i++)   //For each pivot row i.
-    {
-        for(int j = 0; j < n; j++)    //For each row j in the matrix.
+        // Make all other elements in this column = 0
+        for(int j = 0; j < n; j++)
         {
-            if(j != i)   // Skip the pivot row itself 
-            { 
-                double factor = v[j][i];    // element which we want to make 0
+            if(j != i)
+            {
+                double factor = v[j][i];
                 for(int k = 0; k <= n; k++)
-                    v[j][k] -= factor * v[i][k];   // Row operation: Rj -= factor × Ri
-            }
-        }   
+                    v[j][k] -= factor * v[i][k];
+            } 
+       }
     }
 
 
