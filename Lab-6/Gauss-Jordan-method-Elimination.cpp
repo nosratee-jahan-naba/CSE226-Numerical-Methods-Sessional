@@ -1,34 +1,42 @@
-#include <iostream>
+#include<bits/stdc++.h>
 using namespace std;
-int main() 
-{
-    int n;
-    cin >> n;
-    double a[n][n+1];
-    
-    for(int i = 0; i < n; i++)
-        for(int j = 0; j <= n; j++)
-             cin >> a[i][j];
 
-    for (int i = 0; i < n; i++) 
+int main()
+{
+    int n; cin  >> n;
+
+    double v[n][n+1];  // [A:B]
+
+    for(int i = 0; i < n; i++)
+       for(int j = 0; j <= n; j++)
+           cin >> v[i][j];
+
+    // this loop -->  pivot element, v[i][i] ==> 1 ,v[0][0] = 1.....
+    for(int i = 0; i < n; i++)
     {
-        double diag = a[i][i];
-        for (int j = 0; j <= n; j++) 
-            a[i][j] /= diag;
-        
-        for (int k = 0; k < n; k++) 
-        {
-            if (k != i) 
-            {
-                double factor = a[k][i];
-                for (int j = 0; j <= n; j++) 
-                    a[k][j] -= factor * a[i][j];
-            }
-        }
+        double pivot = v[i][i];
+        for(int j = 0; j <= n; j++)
+            v[i][j] /= pivot;       
     }
-    for (int i = 0; i < n; i++) 
-        cout << "x" << i + 1 << " = " << a[i][n] << endl;
-    
+
+    for(int i = 0; i < n; i++)   //For each pivot row i.
+    {
+        for(int j = 0; j < n; j++)    //For each row j in the matrix.
+        {
+            if(j != i)   // Skip the pivot row itself 
+            { 
+                double factor = v[j][i];    // element which we want to make 0
+                for(int k = 0; k <= n; k++)
+                    v[j][k] -= factor * v[i][k];   // Row operation: Rj -= factor × Ri
+            }
+        }   
+    }
+
+
+    for(int i = 0; i < n; i++)
+        cout << v[i][n] << " " << endl;
+
     return 0;
 }
-
+    
+   
