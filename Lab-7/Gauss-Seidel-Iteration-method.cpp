@@ -1,61 +1,68 @@
 #include <bits/stdc++.h>
 using namespace std;
+
 #define tol 0.0001
+
 int main()
 {
     int n;
     cin >> n;
 
-    double a[n][n], b[n], x[n];
+    double a[n][n], c[n], x[n];
 
     for(int i = 0; i < n; i++)
         for(int j = 0; j < n; j++)
             cin >> a[i][j];
 
-    for (int i = 0; i < n; i++)
-        cin >> b[i];
+    for(int i = 0; i < n; i++)
+        cin >> c[i];
 
-    for (int i = 0; i < n; i++)
-        x[i] = 0;
+    memset(x, 0, sizeof(x));  // Initialize x to zero
 
     int iter = 0;
     bool converged = false;
 
-    while (iter < 100)
+    while(iter < 100)
     {
         double x_old[n];
-        for (int i = 0; i < n; i++)
+        for(int i = 0; i < n; i++)
             x_old[i] = x[i];
 
-        for (int i = 0; i < n; i++)
+        for(int i = 0; i < n; i++)
         {
-            double sum = b[i];
-            for (int j = 0; j < n; j++)
+            double cnst = c[i];
+            // Subtract sum of a[i][j] * x[j] for all j != i
+            for(int j = 0; j < n; j++)
             {
-                if (j != i)
-                    sum -= a[i][j] * x[j];
+                if(j != i)
+                    cnst -= a[i][j] * x[j];
             }
-            x[i] = sum / a[i][i];
+            x[i] =  cnst / a[i][i];   // Calculate new x[i]
         }
+
+                // Check if solution has converged by comparing old and new values
         bool allClose = true;
-        for (int i = 0; i < n; i++)
+        for(int i = 0; i < n; i++)
         {
-            if (fabs(x[i] - x_old[i]) > tol)
+            if(fabs(x[i] - x_old[i]) > tol)
             {
                 allClose = false;
                 break;
             }
         }
-        if (allClose)
+
+        if(allClose)
         {
             converged = true;
             break;
         }
+
         iter++;
     }
-    if (converged)
+
+    if(converged)
     {
-        for (int i = 0; i < n; i++)
+        for(int i = 0; i < n; i++)
             cout << fixed << setprecision(6) << x[i] << endl;
     }
     else
