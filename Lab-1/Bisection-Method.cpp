@@ -12,28 +12,26 @@ void bisection(double a, double b)
         cout << "Invalid interval" << endl;
         return;
     }
-    double c;
+    double c,c0=a;
     int i=0;
     while (i <= 100)   
     {
         c = (a+b)/2;
-        cout << c << endl;
-        if (f(c) == 0)
-            break;
-        else if (f(c)*f(a) < 0)
+
+        if((f(c) == 0) || (fabs(c0 - c) <=tol))
+        {
+            cout << "root = " << c << endl;
+            return;
+        }
+        if (f(c)*f(a) < 0)
             b = c;
         else
             a = c;
-        if (f(c) == 0.0 || fabs(f(c)) < tol)
-        {
-            break;
-        }
+        
+        c=c0;
         i++;
     }
-    if (i > 100)
-        cout << "Did not converge within 100 iterations." << endl;
-    else
-        cout << "The value of the root is : " << c << endl;
+    cout << "Did not converge within 100 iterations." << endl;
 }
 
 int main()
